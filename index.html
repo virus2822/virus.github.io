@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIRUS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Inter,sans-serif;
+  background:#0b0f14;
+  color:#e5e7eb;
+  direction:ltr;
+}
+a{text-decoration:none;color:inherit}
+section{padding:120px 10%}
+h1,h2{font-weight:700}
+.accent{color:#00f5d4}
+
+/* NAV */
+nav{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  padding:20px 10%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(11,15,20,.9);
+  z-index:1000
+}
+.logo{
+  font-size:28px;
+  letter-spacing:3px;
+  font-weight:700;
+  color:#00f5d4
+}
+nav ul{display:flex;gap:25px;list-style:none}
+nav ul a:hover{color:#00f5d4}
+#lang{cursor:pointer;color:#00f5d4;font-weight:600}
+
+/* HERO */
+#hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
+#hero h1{font-size:70px;margin-bottom:20px}
+#hero p{font-size:22px;max-width:700px}
+
+/* CARDS */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px
+}
+.card{
+  background:#111418;
+  padding:30px;
+  border-radius:10px;
+  transition:.3s
+}
+.card:hover{
+  transform:translateY(-6px);
+  border:1px solid #00f5d4
+}
+
+/* SKILLS */
+.skill{margin-bottom:20px}
+.bar{
+  background:#1f2933;
+  height:6px;
+  border-radius:10px;
+  overflow:hidden
+}
+.fill{
+  height:100%;
+  background:#00f5d4;
+  width:0%
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:40px;
+  opacity:.6
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">VIRUS</div>
+  <ul>
+    <li><a href="#about" class="t" data-en="About" data-ar="عني">About</a></li>
+    <li><a href="#experience" class="t" data-en="Experience" data-ar="الخبرة">Experience</a></li>
+    <li><a href="#skills" class="t" data-en="Skills" data-ar="المهارات">Skills</a></li>
+    <li><a href="#certs" class="t" data-en="Certificates" data-ar="الشهادات">Certificates</a></li>
+    <li><a href="#notes" class="t" data-en="Notes" data-ar="ملاحظات">Notes</a></li>
+    <li><a href="#contact" class="t" data-en="Contact" data-ar="تواصل">Contact</a></li>
+  </ul>
+  <div id="lang">AR</div>
+</nav>
+
+<section id="hero">
+  <h1>VIRUS</h1>
+  <p class="t"
+     data-en="Web penetration testing and bug hunting. Focused on understanding systems, not abusing tools."
+     data-ar="اختبار اختراق تطبيقات الويب وصيد الثغرات. أفهم الأنظمة قبل ما أستخدم الأدوات.">
+  </p>
+</section>
+
+<section id="about">
+  <h2 class="accent t" data-en="About" data-ar="عني">About</h2>
+  <p class="t"
+     data-en="I work on web security from an offensive perspective. I value logic, patience, and clean methodology over shortcuts."
+     data-ar="أعمل في مجال أمن الويب من منظور هجومي. أركز على الفهم والمنهجية أكثر من الاختصارات.">
+  </p>
+</section>
+
+<section id="experience">
+  <h2 class="accent t" data-en="Experience" data-ar="الخبرة">Experience</h2>
+  <div class="cards">
+    <div class="card t"
+      data-en="Web penetration testing on labs and real-world style targets."
+      data-ar="اختبار اختراق ويب على مختبرات وأهداف تحاكي الواقع.">
+    </div>
+    <div class="card t"
+      data-en="Bug bounty mindset and vulnerability research."
+      data-ar="تفكير باگ باونتي وبحث عن الثغرات.">
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <h2 class="accent t" data-en="Skills" data-ar="المهارات">Skills</h2>
+
+  <div class="skill">
+    Web Pentesting
+    <div class="bar"><div class="fill" style="width:70%"></div></div>
+  </div>
+  <div class="skill">
+    SQL Injection
+    <div class="bar"><div class="fill" style="width:65%"></div></div>
+  </div>
+  <div class="skill">
+    XSS
+    <div class="bar"><div class="fill" style="width:70%"></div></div>
+  </div>
+</section>
+
+<section id="certs">
+  <h2 class="accent t" data-en="Certificates" data-ar="الشهادات">Certificates</h2>
+  <p>— Place your certificate images here —</p>
+</section>
+
+<section id="notes">
+  <h2 class="accent t" data-en="Notes" data-ar="ملاحظات">Notes</h2>
+  <div class="cards">
+    <div class="card">Web security notes</div>
+    <div class="card">Bug bounty thoughts</div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2 class="accent t" data-en="Contact" data-ar="تواصل">Contact</h2>
+  <p>GitHub | Instagram</p>
+</section>
+
+<footer>© VIRUS</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.utils.toArray("section").forEach(sec=>{
+  gsap.from(sec,{
+    opacity:0,
+    y:50,
+    duration:1,
+    scrollTrigger:{trigger:sec,start:"top 80%"}
+  });
+});
+
+let lang="en";
+document.getElementById("lang").onclick=()=>{
+  lang=lang==="en"?"ar":"en";
+  document.body.dir=lang==="ar"?"rtl":"ltr";
+  document.getElementById("lang").innerText=lang==="en"?"AR":"EN";
+  document.querySelectorAll(".t").forEach(e=>{
+    e.innerText=e.dataset[lang];
+  });
+};
+</script>
+
+</body>
+</html>
