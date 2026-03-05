@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIRUS | Web Penetration Tester</title>
+    <meta name="description" content="Web Penetration Tester & Bug Hunter • eJPT • CWSE • WEB-RTA • CRTOM • CAPT">
+    <!-- Open Graph / معاينة الرابط عند المشاركة -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="VIRUS | Web Penetration Tester">
+    <meta property="og:description" content="Web Penetration Tester & Bug Hunter • eJPT • CWSE • WEB-RTA • CRTOM • CAPT">
+    <meta property="og:image" content="images/og-preview.png">
+    <meta property="og:url" content="">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VIRUS | Web Penetration Tester">
+    <meta name="twitter:description" content="Web Penetration Tester & Bug Hunter • eJPT • CWSE • WEB-RTA • CRTOM • CAPT">
+    <meta name="twitter:image" content="images/og-preview.png">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050508;
+            --surface: #0c0c10;
+            --surface-hover: #12121a;
+            --primary: #00f0a0;
+            --primary-dim: rgba(0, 240, 160, 0.15);
+            --accent: #00b4d8;
+            --text-main: #f0f2f5;
+            --text-dim: #8b92a0;
+            --border: rgba(255,255,255,0.06);
+            --glow: 0 0 40px rgba(0, 240, 160, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.65;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        body.lightbox-open { overflow: hidden; }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 240, 160, 0.06), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(0, 180, 216, 0.04), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.2s, transform 0.2s; }
+
+        /* Navigation */
+        nav {
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: var(--primary);
+            letter-spacing: 0.05em;
+        }
+        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-dim);
+        }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Hamburger (موبايل) */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: var(--text-main);
+            flex-direction: column;
+            gap: 5px;
+        }
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 1px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+        .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* Hero */
+        #hero {
+            padding: 70px 6% 50px;
+            max-width: 720px;
+            position: relative;
+            z-index: 1;
+        }
+        .badge {
+            background: var(--primary-dim);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.03em;
+            display: inline-block;
+            margin-bottom: 18px;
+            border: 1px solid rgba(0, 240, 160, 0.2);
+        }
+        #hero h1 {
+            font-size: clamp(2.4rem, 7vw, 3.8rem);
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-dim);
+            max-width: 560px;
+        }
+        .hero-desc b { color: var(--text-main); font-weight: 600; }
+
+        /* CTA زر تواصل */
+        .cta-wrap { margin-top: 28px; }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: var(--bg);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: box-shadow 0.25s, transform 0.2s;
+        }
+        .cta-btn:hover {
+            box-shadow: 0 0 30px rgba(0, 240, 160, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            padding: 32px 6%;
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+        .stat-card {
+            background: var(--surface);
+            padding: 22px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .stat-card:hover {
+            border-color: rgba(0, 240, 160, 0.25);
+            box-shadow: var(--glow);
+        }
+        .stat-card h3 { color: var(--primary); font-size: 1.25rem; font-weight: 600; margin-bottom: 4px; }
+        .stat-card p { font-size: 0.85rem; color: var(--text-dim); }
+        .stat-card a { display: block; }
+
+        /* Sections */
+        section { padding: 56px 6%; position: relative; z-index: 1; }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-main);
+        }
+        h2::after {
+            content: "";
+            height: 1px;
+            background: var(--border);
+            flex: 1;
+            max-width: 200px;
+        }
+
+        /* Skills / أدوات */
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 16px;
+            max-width: 720px;
+        }
+        .skills-list span {
+            background: var(--surface);
+            color: var(--text-dim);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid var(--border);
+        }
+
+        /* Experience block */
+        .experience-block {
+            background: var(--surface);
+            padding: 28px 32px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            max-width: 720px;
+        }
+        .experience-block p { color: var(--text-dim); font-size: 1rem; }
+
+        /* Certificates */
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .cert-card {
+            background: var(--surface);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+            cursor: pointer;
+        }
+        .cert-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 240, 160, 0.3);
+            box-shadow: var(--glow);
+        }
+        .cert-img-wrap {
+            width: 100%;
+            height: 160px;
+            background: #0f0f14;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .cert-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .cert-info { padding: 18px; }
+        .cert-info h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .cert-info p { color: var(--text-dim); font-size: 0.82rem; }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .lightbox.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .lightbox img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
+        }
+        .lightbox-close:hover {
+            background: var(--primary);
+            color: var(--bg);
+        }
+
+        /* Back to top */
+        .back-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.2s;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--primary);
+            color: var(--bg);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 56px 6% 32px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .social-links a {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            border-bottom: 1px solid var(--primary);
+            padding-bottom: 2px;
+        }
+        .social-links a:hover { color: var(--primary); }
+        .copyright { color: var(--text-dim); font-size: 0.78rem; font-family: 'JetBrains Mono'; }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 220px;
+                height: 100vh;
+                background: var(--surface);
+                border-left: 1px solid var(--border);
+                flex-direction: column;
+                padding: 80px 24px 24px;
+                gap: 20px;
+                transform: translateX(100%);
+                transition: transform 0.3s;
+                z-index: 99;
+            }
+            .nav-links.is-open { transform: translateX(0); }
+            .nav-toggle { display: flex; }
+            #hero { padding-top: 48px; }
+            .stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">VIRUS</div>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#certificates">Certificates</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<section id="hero">
+    <div class="badge">PenTester / Bug Hunter</div>
+    <h1>Hi, I'm VIRUS.</h1>
+    <p class="hero-desc">
+        Professional <b>Web Penetration Tester</b> & <b>Bug Hunter</b>.
+        Finding and hunting vulnerabilities, securing web apps through methodical testing and deep logic analysis.
+    </p>
+    <div class="cta-wrap">
+        <a href="https://www.instagram.com/i6g.c?igsh=MTdxa2o3cnN4YjQ2Mg==" target="_blank" rel="noopener" class="cta-btn">Let's connect →</a>
+    </div>
+</section>
+
+<div class="stats">
+    <a href="https://hackerone.com/" target="_blank" rel="noopener" class="stat-card">
+        <h3>HackerOne</h3>
+        <p>Hunting</p>
+    </a>
+    <div class="stat-card">
+        <h3>5+ Certs</h3>
+        <p>Penetration testing & red teaming</p>
+    </div>
+    <div class="stat-card">
+        <h3>Global Labs</h3>
+        <p>HTB · Portswigger · THM</p>
+    </div>
+</div>
+
+<section id="experience">
+    <h2>My Experience</h2>
+    <div class="experience-block">
+        <p>
+            Breaking web applications to help developers build them stronger. My focus is vulnerability discovery—diving deep into complex logic to uncover critical flaws that automated tools often miss.
+        </p>
+    </div>
+</section>
+
+<section id="skills">
+    <h2>Skills & Tools</h2>
+    <div class="skills-list">
+        <span>Burp Suite</span>
+        <span>OWASP Top 10</span>
+        <span>Web App Testing</span>
+        <span>API Security</span>
+        <span>SQL Injection</span>
+        <span>XSS</span>
+        <span>SSRF</span>
+        <span>IDOR</span>
+        <span>Linux</span>
+        <span>Nmap</span>
+    </div>
+</section>
+
+<section id="certificates">
+    <h2>Certificates</h2>
+    <div class="certs-grid">
+        <div class="cert-card" data-cert-src="images/WEB-RTA.png">
+            <div class="cert-img-wrap">
+                <img src="images/WEB-RTA.png" alt="WEB-RTA Certificate" loading="lazy">
+            </div>
+            <div class="cert-info">
+                <h4>WEB-RTA</h4>
+                <p>Certified Web Red Team Analyst</p>
+            </div>
+        </div>
+        <div class="cert-card" data-cert-src="images/CWSE.jpg">
+            <div class="cert-img-wrap">
+                <img src="images/CWSE.jpg" alt="CWSE Certificate" loading="lazy">
+            </div>
+            <div class="cert-info">
+                <h4>CWSE</h4>
+                <p>Certified Web Security Expert</p>
+            </div>
+        </div>
+        <div class="cert-card" data-cert-src="images/eJPTV2.png">
+            <div class="cert-img-wrap">
+                <img src="images/eJPTV2.png" alt="eJPT Certificate" loading="lazy">
+            </div>
+            <div class="cert-info">
+                <h4>eJPT</h4>
+                <p>Junior Penetration Tester</p>
+            </div>
+        </div>
+        <div class="cert-card" data-cert-src="images/CRTOM.png">
+            <div class="cert-img-wrap">
+                <img src="images/CRTOM.png" alt="CRTOM Certificate" loading="lazy">
+            </div>
+            <div class="cert-info">
+                <h4>CRTOM</h4>
+                <p>Certified Red Team Ops Management</p>
+            </div>
+        </div>
+        <div class="cert-card" data-cert-src="images/CAPT.png">
+            <div class="cert-img-wrap">
+                <img src="images/CAPT.png" alt="CAPT Certificate" loading="lazy">
+            </div>
+            <div class="cert-info">
+                <h4>CAPT</h4>
+                <p>Certified Associate Penetration Tester</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Certificate preview">
+    <button type="button" class="lightbox-close" aria-label="Close" id="lightbox-close">×</button>
+    <img src="" alt="" id="lightbox-img">
+</div>
+
+<!-- Back to top -->
+<a href="#hero" class="back-to-top" id="back-to-top" aria-label="Back to top">↑</a>
+
+<footer id="contact">
+    <div class="social-links">
+        <a href="https://github.com/virus2822" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.instagram.com/i6g.c?igsh=MTdxa2o3cnN4YjQ2Mg==" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://hackerone.com/viruuss?type=user" target="_blank" rel="noopener">HackerOne</a>
+    </div>
+    <p class="copyright">© 2026 VIRUS. All rights reserved.</p>
+</footer>
+
+<script>
+    // Hamburger menu
+    (function() {
+        var toggle = document.querySelector('.nav-toggle');
+        var links = document.querySelector('.nav-links');
+        if (!toggle || !links) return;
+        toggle.addEventListener('click', function() {
+            var open = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', !open);
+            links.classList.toggle('is-open', !open);
+        });
+        links.querySelectorAll('a').forEach(function(a) {
+            a.addEventListener('click', function() {
+                toggle.setAttribute('aria-expanded', 'false');
+                links.classList.remove('is-open');
+            });
+        });
+    })();
+
+    // Lightbox
+    (function() {
+        var lb = document.getElementById('lightbox');
+        var lbImg = document.getElementById('lightbox-img');
+        var lbClose = document.getElementById('lightbox-close');
+        if (!lb || !lbImg) return;
+        document.querySelectorAll('.cert-card[data-cert-src]').forEach(function(card) {
+            card.addEventListener('click', function() {
+                var src = card.getAttribute('data-cert-src');
+                var alt = card.querySelector('img') && card.querySelector('img').alt || 'Certificate';
+                if (src) {
+                    lbImg.src = src;
+                    lbImg.alt = alt;
+                    lb.classList.add('is-open');
+                    document.body.classList.add('lightbox-open');
+                }
+            });
+        });
+        function closeLightbox() {
+            lb.classList.remove('is-open');
+            document.body.classList.remove('lightbox-open');
+        }
+        if (lbClose) lbClose.addEventListener('click', closeLightbox);
+        lb.addEventListener('click', function(e) { if (e.target === lb) closeLightbox(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+    })();
+
+    // Back to top visibility
+    (function() {
+        var btn = document.getElementById('back-to-top');
+        if (!btn) return;
+        window.addEventListener('scroll', function() {
+            btn.classList.toggle('visible', window.scrollY > 400);
+        });
+    })();
+</script>
+
+</body>
+</html>
